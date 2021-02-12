@@ -57,7 +57,7 @@ const getPopularMusic = async (category) => {
     params: {
       category: musicCategoryMap[category],
       lang: "tc",
-      limit: 10,
+      limit: 5,
       terr: "tw",
       type: "song",
     },
@@ -80,7 +80,7 @@ const getPopularMusic = async (category) => {
   );
 };
 
-var bot = linebot({
+const bot = linebot({
   channelId: process.env.LINEBOT_CHANNEL_ID,
   channelSecret: process.env.LINEBOT_CHANNEL_SECRET,
   channelAccessToken: process.env.LINEBOT_CHANNEL_ACCESS_TOKEN,
@@ -93,7 +93,10 @@ bot.on("message", async (event) => {
     if (msg.includes("音樂")) {
       for (let category of musicCategory) {
         if (msg.includes(category)) {
-          res = await getPopularMusic(category).catch((err) => "忙碌中");
+          res = await getPopularMusic(category).catch((err) => {
+            console.error(err);
+            return "忙碌中";
+          });
           break;
         }
       }
