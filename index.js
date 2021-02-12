@@ -57,7 +57,7 @@ const getPopularMusic = async (category) => {
     params: {
       category: musicCategoryMap[category],
       lang: "tc",
-      limit: 3,
+      limit: 10,
       terr: "tw",
       type: "song",
     },
