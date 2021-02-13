@@ -20,29 +20,41 @@ const cache = new NodeCache({ stdTTL: 60 * 60 * 6 });
 const getPopularMusic = async (category) => {
   if (cache.has(category)) return cache.get(category);
   else {
-    const res = await axios.get(process.env.KKBOX_URL, {
-      params: {
-        category: musicCategoryMap[category],
-        lang: "tc",
-        limit: 10,
-        terr: "tw",
-        type: "song",
-      },
-    });
-
-    const {
-      data: {
-        data: {
-          charts: { song: songs },
+    let songs, errMsg;
+    await axios
+      .get(process.env.KKBOX_URL, {
+        params: {
+          category: musicCategoryMap[category],
+          lang: "tc",
+          limit: 3,
+          terr: "tw",
+          type: "song",
         },
-      },
-    } = res;
+      })
+      .then((res) => {
+        songs = res.data?.data?.charts?.song;
+      })
+      .catch((err) => {
+        errMsg = err;
+      });
+
+    if (errMsg) throw Error(errMsg);
 
     const songInfos = songs.map((song) => ({
       name: song.song_name,
       artist: song.artist_name,
     }));
-    const vedioIds = await getMusicVedioIds(songInfos);
+
+    let vedioIds;
+    await getMusicVedioIds(songInfos)
+      .then((res) => {
+        vedioIds = res;
+      })
+      .catch((err) => {
+        errMsg = err;
+      });
+
+    if (errMsg) throw Error(errMsg);
 
     const msg = songs
       .map(

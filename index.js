@@ -18,45 +18,48 @@ const musicCategory = [
   "雷鬼",
 ];
 
-const bot = linebot({
-  channelId: process.env.LINEBOT_CHANNEL_ID,
-  channelSecret: process.env.LINEBOT_CHANNEL_SECRET,
-  channelAccessToken: process.env.LINEBOT_CHANNEL_ACCESS_TOKEN,
-});
+const startupServer = () => {
+  const bot = linebot({
+    channelId: process.env.LINEBOT_CHANNEL_ID,
+    channelSecret: process.env.LINEBOT_CHANNEL_SECRET,
+    channelAccessToken: process.env.LINEBOT_CHANNEL_ACCESS_TOKEN,
+  });
 
-bot.on("message", async (event) => {
-  if (event.message.type === "text") {
-    let res = "meow~";
-    const msg = event.message.text;
-    console.log(msg); //
-    if (msg.includes("音樂")) {
-      for (let category of musicCategory) {
-        if (msg.includes(category)) {
-          res = await getPopularMusic(category).catch((err) => {
-            console.error(err);
-            return "忙碌中";
-          });
-          break;
+  bot.on("message", async (event) => {
+    if (event.message.type === "text") {
+      let res = "meow~";
+      const msg = event.message.text;
+      if (msg.includes("音樂")) {
+        for (let category of musicCategory) {
+          if (msg.includes(category)) {
+            res = await getPopularMusic(category).catch((err) => {
+              console.error(err);
+              return "忙碌中";
+            });
+            break;
+          }
         }
+      } else if (msg.includes("時事")) {
+        res = await getHotPostsFromPtt().catch((err) => {
+          console.error(err);
+          return "忙碌中";
+        });
       }
-    } else if (msg.includes("時事")) {
-      res = await getHotPostsFromPtt().catch((err) => {
-        console.error(err);
-        return "忙碌中";
-      });
+      event.reply(res);
     }
-    event.reply(res);
-  }
-});
+  });
 
-const app = express();
+  const app = express();
 
-const linebotParser = bot.parser();
-app.post("/linewebhook", linebotParser);
-app.listen(process.env.PORT || 3000, function () {
-  console.log("MeowBot is running.");
-});
+  const linebotParser = bot.parser();
+  app.post("/linewebhook", linebotParser);
+  app.listen(process.env.PORT || 3000, function () {
+    console.log("MeowBot is running.");
+  });
 
-app.get("/ping", (req, res) => {
-  res.send("pong");
-});
+  app.get("/ping", (req, res) => {
+    res.send("pong");
+  });
+};
+
+startupServer();
