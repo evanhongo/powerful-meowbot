@@ -2,7 +2,7 @@ import express from "express";
 import linebot from "linebot";
 import dotenv from "dotenv";
 import getPopularMusic from "./getPopularMusic.js";
-
+import getHotPostsFromPtt from "./getHotPostsFromPtt.js";
 dotenv.config();
 
 const musicCategory = [
@@ -38,15 +38,19 @@ bot.on("message", async (event) => {
           break;
         }
       }
+    } else if (msg.includes("時事")) {
+      res = await getHotPostsFromPtt().catch((err) => {
+        console.error(err);
+        return "忙碌中";
+      });
     }
-
     event.reply(res);
   }
 });
 
 const app = express();
-app.get("/ping", (req, res) => {
-  res.send("pong");
+app.get("/", (req, res) => {
+  res.send("Hello World");
 });
 
 const linebotParser = bot.parser();
