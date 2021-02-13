@@ -1,7 +1,7 @@
 import express from "express";
 import linebot from "linebot";
 import dotenv from "dotenv";
-import getPopularMusic from "./getPopularMusic.js";
+import getPopularSongs from "./getPopularSongs.js";
 import getHotPostsFromPtt from "./getHotPostsFromPtt.js";
 dotenv.config();
 
@@ -32,7 +32,7 @@ const startupServer = () => {
       if (msg.includes("音樂")) {
         for (let category of musicCategory) {
           if (msg.includes(category)) {
-            res = await getPopularMusic(category).catch((err) => {
+            res = await getPopularSongs(category).catch((err) => {
               console.error(err);
               return "忙碌中";
             });

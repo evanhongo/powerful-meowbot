@@ -1,8 +1,7 @@
 import axios from "axios";
 
-const getMusicVedioIds = async (songInfos) => {
-  let videoIds, errMsg;
-  await Promise.all(
+const getVedioIds = async (songInfos) => {
+  const videoIds = await Promise.all(
     songInfos.map(async (info) => {
       const res = await axios.get(process.env.YOUTUBE_DATA_API_URI, {
         params: {
@@ -19,16 +18,11 @@ const getMusicVedioIds = async (songInfos) => {
 
       return items[0].id.videoId;
     })
-  )
-    .then((res) => {
-      videoIds = res;
-    })
-    .catch((err) => {
-      errMsg = err;
-    });
+  ).catch((err) => {
+    throw Error(err);
+  });
 
-  if (errMsg) throw Error(errMsg);
   return videoIds;
 };
 
-export default getMusicVedioIds;
+export default getVedioIds;

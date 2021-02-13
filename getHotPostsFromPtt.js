@@ -2,18 +2,10 @@ import axios from "axios";
 import cheerio from "cheerio";
 
 const getHotPostsFromPtt = async () => {
-  let htmlContent, errMsg;
-  await axios
-    .get(process.env.PTT_URL)
-    .then((res) => {
-      htmlContent = res.data;
-    })
-    .catch((err) => {
-      errMsg = err;
-    });
-
-  if (errMsg) throw Error(errMsg);
-
+  const res = await axios.get(process.env.PTT_URL).catch((err) => {
+    throw Error(err);
+  });
+  const { data: htmlContent } = res;
   const postIds = [];
   const $ = cheerio.load(htmlContent);
   $("a.e7-article-default").each((i, elem) => {
