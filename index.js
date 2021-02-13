@@ -26,8 +26,9 @@ const bot = linebot({
 
 bot.on("message", async (event) => {
   if (event.message.type === "text") {
-    let res;
+    let res = "meow~";
     const msg = event.message.text;
+    console.log(msg); //
     if (msg.includes("音樂")) {
       for (let category of musicCategory) {
         if (msg.includes(category)) {
@@ -49,12 +50,13 @@ bot.on("message", async (event) => {
 });
 
 const app = express();
-app.get("/", (req, res) => {
-  res.send("Hello World");
-});
 
 const linebotParser = bot.parser();
 app.post("/linewebhook", linebotParser);
 app.listen(process.env.PORT || 3000, function () {
   console.log("MeowBot is running.");
+});
+
+app.get("/ping", (req, res) => {
+  res.send("pong");
 });

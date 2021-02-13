@@ -44,13 +44,15 @@ const getPopularMusic = async (category) => {
     }));
     const vedioIds = await getMusicVedioIds(songInfos);
 
-    const songList = songs.map(
-      (song, i) =>
-        `${song.song_name}\t${song.artist_name}\nhttps://www.youtube.com/watch?v=${vedioIds[i]}`
-    );
+    const msg = songs
+      .map(
+        (song, i) =>
+          `${song.song_name}\n${song.artist_name}\nhttps://www.youtube.com/watch?v=${vedioIds[i]}`
+      )
+      .join("\n");
 
-    cache.set(category, songList);
-    return songList;
+    cache.set(category, msg);
+    return msg;
   }
 };
 
