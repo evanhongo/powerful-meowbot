@@ -19,35 +19,10 @@ const musicCategoryMap = {
 const cache = new NodeCache({ stdTTL: 60 * 60 * 6 });
 
 const getPopularSongs = async (category) => {
+  //data flow: cache => mongodb => third party api
+  let msg;
   if (cache.has(category)) return cache.get(category);
   else {
-    const res = await axios
-      .get(process.env.KKBOX_URL, {
-        params: {
-          category: musicCategoryMap[category],
-          lang: "tc",
-          limit: 3,
-          terr: "tw",
-          type: "song",
-        },
-      })
-      .catch((err) => {
-        throw Error(err);
-      });
-
-    const {
-      data: {
-        data: {
-          charts: { song: songs },
-        },
-      },
-    } = res;
-
-    const songInfos = songs.map((song) => ({
-      name: song.song_name,
-      artist: song.artist_name,
-    }));
-
     const mongoClient = mongodb.MongoClient;
     const db = await mongoClient
       .connect(process.env.DB_URI, {
@@ -55,23 +30,54 @@ const getPopularSongs = async (category) => {
         useUnifiedTopology: true,
       })
       .catch((err) => {
+        db.close();
         throw Error(err);
       });
     const dbo = db.db("meow-db");
     const collection = dbo.collection("song");
+    await collection
+      .createIndex({ updatedAt: 1 }, { expireAfterSeconds: 60 * 60 * 12 })
+      .catch((err) => {
+        console.error(err);
+      });
+    const songs = await collection.findOne({ category }).catch((err) => {
+      db.close();
+      throw Error(err);
+    });
+    msg = songs?.info;
+    if (!msg) {
+      console.info("Not found in mongo");
+      const res = await axios
+        .get(process.env.KKBOX_URL, {
+          params: {
+            category: musicCategoryMap[category],
+            lang: "tc",
+            limit: 3,
+            terr: "tw",
+            type: "song",
+          },
+        })
+        .catch((err) => {
+          throw Error(err);
+        });
 
-    const vedioIds = await getVedioIds(songInfos).catch((err) => null);
+      const {
+        data: {
+          data: {
+            charts: { song: songs },
+          },
+        },
+      } = res;
 
-    let msg;
-    if (!vedioIds) {
-      const songs = await collection.findOne({ category }).catch((err) => {
+      const songInfos = songs.map((song) => ({
+        name: song.song_name,
+        artist: song.artist_name,
+      }));
+
+      const vedioIds = await getVedioIds(songInfos).catch((err) => {
         throw Error(err);
       });
 
-      if (!songs) throw Error("Not found in mongo!");
-
-      msg = songs.info;
-    } else {
       msg = songs
         .map(
           (song, i) =>
@@ -81,14 +87,11 @@ const getPopularSongs = async (category) => {
 
       collection.updateOne(
         { category },
-        { category, info: msg },
+        { $set: { category, info: msg, updatedAt: new Date() } },
         { upsert: true }
       );
-
-      cache.set(category, msg);
     }
-
-    db.close();
+    cache.set(category, msg);
     return msg;
   }
 };
