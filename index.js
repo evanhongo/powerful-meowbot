@@ -3,6 +3,8 @@ import linebot from "linebot";
 import dotenv from "dotenv";
 import getPopularSongs from "./getPopularSongs.js";
 import getHotPostsFromPtt from "./getHotPostsFromPtt.js";
+import getHotNewsFromYahoo from "./getHotNewsFromYahoo.js";
+
 dotenv.config();
 
 const musicCategory = [
@@ -18,7 +20,7 @@ const musicCategory = [
   "雷鬼",
 ];
 
-const startupServer = () => {
+const startupServer = async () => {
   const bot = linebot({
     channelId: process.env.LINEBOT_CHANNEL_ID,
     channelSecret: process.env.LINEBOT_CHANNEL_SECRET,
@@ -39,13 +41,20 @@ const startupServer = () => {
             break;
           }
         }
+        event.reply(res);
       } else if (msg.includes("時事")) {
-        res = await getHotPostsFromPtt().catch((err) => {
+        const fns = [getHotPostsFromPtt, getHotNewsFromYahoo];
+        res = await Promise.all(
+          fns.map(async (fn) => {
+            return await fn();
+          })
+        ).catch((err) => {
           console.error(err);
           return "忙碌中";
         });
+        res = res.join("\n");
+        event.reply(res);
       }
-      event.reply(res);
     }
   });
 

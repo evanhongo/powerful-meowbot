@@ -1,11 +1,10 @@
-import axios from "axios";
 import cheerio from "cheerio";
+import getHtmlContent from "./getHtmlContent.js";
 
 const getHotPostsFromPtt = async () => {
   try {
-    const res = await axios.get(process.env.PTT_URL);
-    const { data: htmlContent } = res;
     const postIds = [];
+    const htmlContent = await getHtmlContent(process.env.PTT_URL);
     const $ = cheerio.load(htmlContent);
     $("a.e7-article-default").each((i, elem) => {
       const title = $(elem).children().first().children().first().text();
