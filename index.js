@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import getPopularSongs from "./getPopularSongs.js";
 import getHotPostsFromPtt from "./getHotPostsFromPtt.js";
 import getHotNewsFromYahoo from "./getHotNewsFromYahoo.js";
+import getTodayPostsFromDQ from "./getTodayPostsFromDQ.js";
 
 dotenv.config();
 
@@ -43,7 +44,11 @@ const startupServer = async () => {
         }
         event.reply(res);
       } else if (msg.includes("時事")) {
-        const fns = [getHotPostsFromPtt, getHotNewsFromYahoo];
+        const fns = [
+          getHotPostsFromPtt,
+          getHotNewsFromYahoo,
+          getTodayPostsFromDQ,
+        ];
         res = await Promise.all(
           fns.map(async (fn) => {
             return await fn();
