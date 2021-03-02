@@ -2,11 +2,11 @@
   "name": "meow-bot",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "type": "module",
+  "main": "src/index.js",
   "scripts": {
-    "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "babel src -d build",
+    "start": "npm run build && node ./build/index.js",
+    "test": "jest"
   },
   "author": "",
   "license": "ISC",
@@ -18,5 +18,13 @@
     "linebot": "^1.6.1",
     "mongodb": "^3.6.4",
     "node-cache": "^5.1.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.13.0",
+    "@babel/plugin-transform-runtime": "^7.13.8",
+    "@babel/preset-env": "^7.13.8",
+    "@babel/runtime-corejs3": "^7.13.8",
+    "babel-jest": "^26.6.3",
+    "jest": "^26.6.3"
   }
 }

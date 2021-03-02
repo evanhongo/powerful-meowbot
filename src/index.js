@@ -71,8 +71,8 @@ const startupServer = async () => {
     console.log("MeowBot is running.");
   });
 
-  app.get("/ping", (req, res) => {
-    res.send("pong");
+  app.get("/", (req, res) => {
+    res.send("Hello World");
   });
 };
 
