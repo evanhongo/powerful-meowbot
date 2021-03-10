@@ -5,12 +5,10 @@ steps:
   # push container image
   - name: "gcr.io/cloud-builders/docker"
     args: ["push", "gcr.io/$PROJECT_ID/$REPO_NAME"]
-  # run test
-  - name: "gcr.io/cloud-builders/docker"
-    args: ["run", "gcr.io/$PROJECT_ID/$REPO_NAME"]
   # deploy container image to GKE
-  # - name: "gcr.io/cloud-builders/gke-deploy"
-  #   args:
-  #     - run
-  #     - --filename=kubernetes-resource-file
-  #     - --cluster=${_CLOUDSDK_CONTAINER_CLUSTER}
+  - name: "gcr.io/cloud-builders/gke-deploy"
+    args:
+      - run
+      - --image=gcr.io/$PROJECT_ID//$REPO_NAME
+      - --filename=${_CLOUDSDK_K8S_CONFIG}
+      - --cluster=${_CLOUDSDK_CONTAINER_CLUSTER}

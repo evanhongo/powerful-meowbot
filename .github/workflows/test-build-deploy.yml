@@ -1,0 +1,54 @@
+name: Test, Build, and Deploy to GKE
+
+on:
+  push:
+    branches: [master]
+
+env:
+  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  IMAGE: meow-bot
+  GKE_CLUSTER: my-first-cluster-1
+  GKE_ZONE: us-central1-c
+
+jobs:
+  test-build-deploy:
+    name: Test, Build, and Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+
+      # Run test
+      - run: yarn install && yarn test
+
+      # Setup gcloud CLI
+      - name: Setup gcloud CLI
+        uses: google-github-actions/setup-gcloud@master
+        with:
+          service_account_key: ${{ secrets.GCP_SA_KEY }}
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+          export_default_credentials: true
+
+      # Configure docker to use the gcloud CLI as a credential
+      # helper for authentication
+      - name: Configure docker
+        run: gcloud --quiet auth configure-docker
+
+      # Build and push image to Google Container Registry
+      - name: Build and push image to Google Container Registry
+        run: |-
+          docker build -t "gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE }}:$GITHUB_SHA" .
+          docker push "gcr.io/${{ env.PROJECT_ID }}/${{ env.IMAGE }}:$GITHUB_SHA"
+
+      # Get the GKE credentials so we can deploy to the cluster
+      # - run: |-
+      #   gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
+
+      # # Install helm
+      # - uses: azure/setup-helm@v1
+
+      # # Deploy the image to GKE using helm chart
+      # - run: helm upgrade

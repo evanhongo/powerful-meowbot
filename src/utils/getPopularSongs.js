@@ -50,7 +50,7 @@ const getSongsFromCache = async (category) => {
 
 const getSongsFromMongo = async (category) => {
   try {
-    console.info("Not found in cache");
+    //Not found in cache
     const mongoClient = mongodb.MongoClient;
     db = await mongoClient.connect(process.env.DB_URI, {
       useNewUrlParser: true,
@@ -77,8 +77,8 @@ const getSongsFromMongo = async (category) => {
 
 const getSongsFromThirdPartyApi = async (category) => {
   try {
-    console.info("Not found in mongo");
-    const res = await axios.get(process.env.KKBOX_URL, {
+    //Not found in mongo
+    const res = await axios.get("https://kma.kkbox.com/charts/api/v1/daily", {
       params: {
         category: musicCategoryMap[category],
         lang: "tc",

@@ -2,19 +2,24 @@
   "name": "meow-bot",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.js",
+  "main": "src/linebot/index.js",
   "scripts": {
     "build": "babel src -d build",
-    "start": "npm run build && node ./build/index.js",
-    "test": "jest"
+    "start": "npm run build && node ./build/linebot/index.js",
+    "test": "jest",
+    "cli": "npm run build && node ./build/cli/index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.1",
+    "chalk": "^4.1.0",
     "cheerio": "^1.0.0-rc.5",
+    "cli-select": "^1.1.2",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "figlet": "^1.5.0",
+    "figures": "^3.2.0",
     "linebot": "^1.6.1",
     "mongodb": "^3.6.4",
     "node-cache": "^5.1.2"
