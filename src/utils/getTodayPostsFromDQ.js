@@ -4,8 +4,8 @@ import parseHtmlContentFromDQ from "./parser/parseHtmlContentFromDQ.js";
 const getTodayPostsFromDQ = async () => {
   try {
     const htmlContent = await getHtmlContent("https://dq.yam.com");
-    const postIds = parseHtmlContentFromDQ(htmlContent);
-    return postIds.join("\n");
+    const posts = parseHtmlContentFromDQ(htmlContent);
+    return posts.join("\n");
   } catch (err) {
     throw Error(err);
   }

@@ -8,11 +8,13 @@ import getPopularSongs from "../utils/getPopularSongs.js";
 import getHotPostsFromPtt from "../utils/getHotPostsFromPtt.js";
 import getHotNewsFromYahoo from "../utils/getHotNewsFromYahoo.js";
 import getTodayPostsFromDQ from "../utils/getTodayPostsFromDQ.js";
+import getNewsFromBusinessNext from "../utils/getNewsFromBusinessNext.js";
+import getTechNews from "../utils/getTechNews.js";
 
 dotenv.config();
 
 const mainOptions = {
-  values: ["時事", "音樂"],
+  values: ["八卦", "新聞", "科技", "音樂"],
   selected: chalk.red(figures.heart),
   unselected: "",
   valueRenderer: (value, selected) => {
@@ -56,15 +58,17 @@ const start = async () => {
     );
     let res = 1;
     while (res) {
-      console.log("你想知道什麼");
+      console.log(chalk.red("你想知道什麼"));
       res = await cliSelect(mainOptions);
       switch (res?.value) {
-        case "時事":
-          console.clear();
+        case "八卦":
+          res = await getHotPostsFromPtt();
+          break;
+        case "新聞":
           const fns = [
-            getHotPostsFromPtt,
             getHotNewsFromYahoo,
             getTodayPostsFromDQ,
+            getNewsFromBusinessNext
           ];
           res = await Promise.all(
             fns.map(async (fn) => {
@@ -73,13 +77,16 @@ const start = async () => {
           );
           res = res?.join("\n");
           break;
+        case "科技":
+          res = await getTechNews();
+          break;
         case "音樂":
-          console.clear();
-          console.log("你想聽什麼類型的音樂");
+          console.log(chalk.red("你想聽什麼類型的音樂"));
           res = await cliSelect(musicOptions);
           res = await getPopularSongs(res?.value);
           break;
       }
+      console.clear();
       console.log(res);
       console.log(
         chalk.bgBlue.black(
@@ -87,9 +94,8 @@ const start = async () => {
         )
       );
     }
-  } catch (e) {
+  } catch (err) {
     console.clear();
-    console.log(e);
   }
 };
 

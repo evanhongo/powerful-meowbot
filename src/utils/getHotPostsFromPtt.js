@@ -6,8 +6,8 @@ const getHotPostsFromPtt = async () => {
     const htmlContent = await getHtmlContent(
       "https://www.pttweb.cc/hot/all/today"
     );
-    const postIds = parseHtmlContentFromPtt(htmlContent);
-    return postIds.slice(0, 20).join("\n");
+    const posts = parseHtmlContentFromPtt(htmlContent);
+    return posts.slice(0, 30).join("\n");
   } catch (err) {
     throw Error(err);
   }

@@ -4,8 +4,8 @@ import parseHtmlContentFromYahoo from "./parser/parseHtmlContentFromYahoo.js";
 const getHotNewsFromYahoo = async () => {
   try {
     const htmlContent = await getHtmlContent("https://tw.news.yahoo.com");
-    const postIds = parseHtmlContentFromYahoo(htmlContent);
-    return postIds.join("\n");
+    const posts = parseHtmlContentFromYahoo(htmlContent);
+    return posts.join("\n");
   } catch (err) {
     throw Error(err);
   }
