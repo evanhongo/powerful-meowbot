@@ -4,6 +4,7 @@ import getHotNewsFromYahoo from "../utils/getHotNewsFromYahoo.js";
 import getTodayPostsFromDQ from "../utils/getTodayPostsFromDQ.js";
 import getNewsFromBusinessNext from "../utils/getNewsFromBusinessNext.js";
 import getTechNews from "../utils/getTechNews.js";
+import getNewsFromIthome from "../utils/getNewsFromIthome.js";
 
 const musicCategory = [
   "華語",
@@ -50,10 +51,16 @@ const getLinebotResult = async (msg) => {
     res = res?.join("\n");
   }
   else if (msg.includes("科技")) {
-    res = await getTechNews().catch((err) => {
+    const fns = [getTechNews, getNewsFromIthome];
+    res = await Promise.all(
+      fns.map(async (fn) => {
+        return await fn();
+      })
+    ).catch((err) => {
       console.error(err);
       return null;
     });
+    res = res?.join("\n");
   }
   return res;
 };

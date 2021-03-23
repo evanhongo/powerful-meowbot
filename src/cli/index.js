@@ -10,6 +10,7 @@ import getHotNewsFromYahoo from "../utils/getHotNewsFromYahoo.js";
 import getTodayPostsFromDQ from "../utils/getTodayPostsFromDQ.js";
 import getNewsFromBusinessNext from "../utils/getNewsFromBusinessNext.js";
 import getTechNews from "../utils/getTechNews.js";
+import getNewsFromIthome from "../utils/getNewsFromIthome.js";
 
 dotenv.config();
 
@@ -57,6 +58,7 @@ const start = async () => {
       chalk.yellow(figlet.textSync("Web Crawler", { horizontalLayout: "full" }))
     );
     let res = 1;
+    let fns;
     while (res) {
       console.log(chalk.red("你想知道什麼"));
       res = await cliSelect(mainOptions);
@@ -65,7 +67,7 @@ const start = async () => {
           res = await getHotPostsFromPtt();
           break;
         case "新聞":
-          const fns = [
+          fns = [
             getHotNewsFromYahoo,
             getTodayPostsFromDQ,
             getNewsFromBusinessNext
@@ -78,7 +80,13 @@ const start = async () => {
           res = res?.join("\n");
           break;
         case "科技":
-          res = await getTechNews();
+          fns = [getTechNews, getNewsFromIthome];
+          res = await Promise.all(
+            fns.map(async (fn) => {
+              return await fn();
+            })
+          );
+          res = res?.join("\n");
           break;
         case "音樂":
           console.log(chalk.red("你想聽什麼類型的音樂"));
