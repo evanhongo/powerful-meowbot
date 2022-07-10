@@ -54,7 +54,7 @@ const start = async () => {
     await sleep(1);
     console.clear();
     console.log(
-      chalk.yellow(figlet.textSync("Web Crawler", { horizontalLayout: "full" }))
+      chalk.yellow(figlet.textSync("Let's Meow", { horizontalLayout: "full" }))
     );
     let res = 1;
     let fns;
@@ -66,7 +66,7 @@ const start = async () => {
           res = await getHotPostsFromPtt();
           break;
         case "新聞":
-          fns = [           
+          fns = [
             getTodayPostsFromDQ,
             getNewsFromBusinessNext
           ];
