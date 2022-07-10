@@ -8,11 +8,11 @@ const getNewsFromBusinessNext = async () => {
     await page.goto('https://www.bnext.com.tw/articles/p/1', { waitUntil: 'networkidle0', timeout: 100000 });
     const htmlContent = await page.content();
     const posts = parseHtmlContentFromBusinessNext(htmlContent);
-    
+
     try {
       await browser.close();
     }
-    catch(err) {
+    catch (err) {
       console.error(err)
     }
 
@@ -21,7 +21,5 @@ const getNewsFromBusinessNext = async () => {
     throw Error(err);
   }
 }
-
-getNewsFromBusinessNext()
 
 export default getNewsFromBusinessNext;
