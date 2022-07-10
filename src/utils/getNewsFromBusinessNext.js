@@ -1,21 +1,27 @@
-import axios from "axios";
+import { launch } from "puppeteer";
+import parseHtmlContentFromBusinessNext from "./parser/parseHtmlContentFromBusinessNext.js";
 
 const getNewsFromBusinessNext = async () => {
   try {
-    const arr = new Array(4).fill(0);
-    const posts =
-      (await Promise.all(arr.map(async (p, i) => {
-        const res = await axios.post(`https://www.bnext.com.tw/api/article/list`, { page: `${i + 1}` });
-        let { data: { data: { data: posts } } } = res;
-        posts = posts.map(post => `${post.title}\n${post.real_link}`);
-        return posts.join("\n");
-      })))
-        .reduce((acc, val) => acc.concat(val), []);
+    const browser = await launch();
+    const page = await browser.newPage();
+    await page.goto('https://www.bnext.com.tw/articles/p/1', { waitUntil: 'networkidle0', timeout: 100000 });
+    const htmlContent = await page.content();
+    const posts = parseHtmlContentFromBusinessNext(htmlContent);
+    
+    try {
+      await browser.close();
+    }
+    catch(err) {
+      console.error(err)
+    }
+
     return posts.join("\n");
-  }
-  catch (err) {
+  } catch (err) {
     throw Error(err);
   }
 }
+
+getNewsFromBusinessNext()
 
 export default getNewsFromBusinessNext;

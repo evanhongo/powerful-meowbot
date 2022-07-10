@@ -6,7 +6,6 @@ import cliSelect from "cli-select";
 import dotenv from "dotenv";
 import getPopularSongs from "../utils/getPopularSongs.js";
 import getHotPostsFromPtt from "../utils/getHotPostsFromPtt.js";
-import getHotNewsFromYahoo from "../utils/getHotNewsFromYahoo.js";
 import getTodayPostsFromDQ from "../utils/getTodayPostsFromDQ.js";
 import getNewsFromBusinessNext from "../utils/getNewsFromBusinessNext.js";
 import getTechNews from "../utils/getTechNews.js";
@@ -67,8 +66,7 @@ const start = async () => {
           res = await getHotPostsFromPtt();
           break;
         case "新聞":
-          fns = [
-            getHotNewsFromYahoo,
+          fns = [           
             getTodayPostsFromDQ,
             getNewsFromBusinessNext
           ];

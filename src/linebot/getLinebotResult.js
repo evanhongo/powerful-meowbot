@@ -1,6 +1,5 @@
 import getPopularSongs from "../utils/getPopularSongs.js";
 import getHotPostsFromPtt from "../utils/getHotPostsFromPtt.js";
-import getHotNewsFromYahoo from "../utils/getHotNewsFromYahoo.js";
 import getTodayPostsFromDQ from "../utils/getTodayPostsFromDQ.js";
 import getNewsFromBusinessNext from "../utils/getNewsFromBusinessNext.js";
 import getTechNews from "../utils/getTechNews.js";
@@ -39,7 +38,7 @@ const getLinebotResult = async (msg) => {
     });
   }
   else if (msg.includes("新聞")) {
-    const fns = [getHotNewsFromYahoo, getTodayPostsFromDQ, getNewsFromBusinessNext];
+    const fns = [getTodayPostsFromDQ, getNewsFromBusinessNext];
     res = await Promise.all(
       fns.map(async (fn) => {
         return await fn();

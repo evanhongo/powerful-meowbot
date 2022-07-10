@@ -1,6 +1,7 @@
 import express from "express";
 import linebot from "linebot";
 import dotenv from "dotenv";
+
 import getLinebotResult from "./getLinebotResult.js";
 
 dotenv.config();

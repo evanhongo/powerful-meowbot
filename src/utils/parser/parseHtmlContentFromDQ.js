@@ -3,12 +3,12 @@ import cheerio from "cheerio";
 const parseHtmlContentFromDQ = (htmlContent) => {
   const $ = cheerio.load(htmlContent);
   const posts =
-    $("ul.newsList")
-      .children()
+    $("article.inIndex")
       .map((i, elem) => {
-        const target = $(elem).children().first();
-        const title = target.attr("title");
-        return `${title}\nhttps://dq.yam.com${target.attr("href")}`;
+        const target = $(elem).find(".post__link--title");
+        const title = target.text().trim();
+        const link = `https://dq.yam.com${target.attr("href")}`;
+        return `${title}\n${link}`;
       })
       .get();
   return posts;
