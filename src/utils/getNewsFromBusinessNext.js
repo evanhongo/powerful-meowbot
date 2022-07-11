@@ -3,7 +3,10 @@ import parseHtmlContentFromBusinessNext from "./parser/parseHtmlContentFromBusin
 
 const getNewsFromBusinessNext = async () => {
   try {
-    const browser = await launch();
+    // Not recommended
+    // Work aroud because of deployment on heroku
+    // See README.md
+    const browser = await launch({ args: ["--no-sandbox", "--disable-setuid-sandbox"] });
     const page = await browser.newPage();
     await page.goto('https://www.bnext.com.tw/articles/p/1', { waitUntil: 'networkidle0', timeout: 100000 });
     const htmlContent = await page.content();
