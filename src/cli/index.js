@@ -10,6 +10,7 @@ import getTodayPostsFromDQ from "../utils/getTodayPostsFromDQ.js";
 import getNewsFromBusinessNext from "../utils/getNewsFromBusinessNext.js";
 import getTechNews from "../utils/getTechNews.js";
 import getNewsFromIthome from "../utils/getNewsFromIthome.js";
+import getNewsFromNewTalks from "../utils/getNewsFromNewTalks.js";
 
 dotenv.config();
 
@@ -68,7 +69,8 @@ const start = async () => {
         case "新聞":
           fns = [
             getTodayPostsFromDQ,
-            getNewsFromBusinessNext
+            getNewsFromBusinessNext,
+            getNewsFromNewTalks
           ];
           res = await Promise.all(
             fns.map(async (fn) => {

@@ -4,6 +4,7 @@ import getTodayPostsFromDQ from "../utils/getTodayPostsFromDQ.js";
 import getNewsFromBusinessNext from "../utils/getNewsFromBusinessNext.js";
 import getTechNews from "../utils/getTechNews.js";
 import getNewsFromIthome from "../utils/getNewsFromIthome.js";
+import getNewsFromNewTalks from "../utils/getNewsFromNewTalks.js";
 
 const musicCategory = [
   "華語",
@@ -38,7 +39,7 @@ const getLinebotResult = async (msg) => {
     });
   }
   else if (msg.includes("新聞")) {
-    const fns = [getTodayPostsFromDQ, getNewsFromBusinessNext];
+    const fns = [getTodayPostsFromDQ, getNewsFromBusinessNext, getNewsFromNewTalks];
     res = await Promise.all(
       fns.map(async (fn) => {
         return await fn();
