@@ -39,7 +39,7 @@ const getLinebotResult = async (msg) => {
     });
   }
   else if (msg.includes("新聞")) {
-    const fns = [getTodayPostsFromDQ, getNewsFromBusinessNext, getNewsFromNewTalks];
+    const fns = [getNewsFromNewTalks];
     res = await Promise.all(
       fns.map(async (fn) => {
         return await fn();
@@ -51,7 +51,7 @@ const getLinebotResult = async (msg) => {
     res = res?.join("\n");
   }
   else if (msg.includes("科技")) {
-    const fns = [getTechNews, getNewsFromIthome];
+    const fns = [getNewsFromBusinessNext, getTechNews, getNewsFromIthome];
     res = await Promise.all(
       fns.map(async (fn) => {
         return await fn();

@@ -8,7 +8,7 @@ const parseHtmlContentFromNewTalks = (htmlContent) => {
         return `${title}\n${link}`;
     }).get();
     
-    return posts;
+    return posts.slice(0, 90);
 }
 
 export default parseHtmlContentFromNewTalks;

@@ -68,8 +68,6 @@ const start = async () => {
           break;
         case "新聞":
           fns = [
-            getTodayPostsFromDQ,
-            getNewsFromBusinessNext,
             getNewsFromNewTalks
           ];
           res = await Promise.all(
@@ -80,7 +78,7 @@ const start = async () => {
           res = res?.join("\n");
           break;
         case "科技":
-          fns = [getTechNews, getNewsFromIthome];
+          fns = [getNewsFromBusinessNext, getTechNews, getNewsFromIthome];
           res = await Promise.all(
             fns.map(async (fn) => {
               return await fn();
