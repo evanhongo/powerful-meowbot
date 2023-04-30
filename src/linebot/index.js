@@ -32,13 +32,15 @@ const startupServer = async () => {
 
   const linebotParser = bot.parser();
   app.post("/linewebhook", linebotParser);
-  app.listen(process.env.PORT || 3000, function () {
-    console.log("MeowBot is running.");
-  });
 
   app.get("/", (req, res) => {
     res.send("Hello World");
   });
+  app.listen(process.env.PORT || 3000, function () {
+    console.log("MeowBot is running.");
+  });
+
+
 };
 
 startupServer();
