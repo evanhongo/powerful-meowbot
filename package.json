@@ -2,15 +2,15 @@
   "name": "meow-bot",
   "version": "2.0.0",
   "description": "",
-  "main": "src/linebot/index.js",
+  "main": "src/delivery/web/index.js",
   "bin": {
-    "meow": "build/cli/index.js"
+    "meow": "build/delivery/cli/index.js"
   },
   "scripts": {
     "build": "babel src -d build",
-    "start": "node ./build/linebot/index.js",
+    "start": "node ./build/delivery/web/index.js",
     "test": "jest",
-    "cli": "node ./build/cli/index.js"
+    "cli": "node ./build/delivery/cli/index.js"
   },
   "author": {
     "name": "evanhongo",

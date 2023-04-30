@@ -5,3 +5,5 @@ dockerfile
 .gitignore
 .dockerignore
 .env
+LICENSE
+README.md

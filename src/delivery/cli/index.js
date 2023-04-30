@@ -4,13 +4,13 @@ import figures from "figures";
 import figlet from "figlet";
 import cliSelect from "cli-select";
 import dotenv from "dotenv";
-import getPopularSongs from "../utils/getPopularSongs.js";
-import getHotPostsFromPtt from "../utils/getHotPostsFromPtt.js";
-import getTodayPostsFromDQ from "../utils/getTodayPostsFromDQ.js";
-import getNewsFromBusinessNext from "../utils/getNewsFromBusinessNext.js";
-import getTechNews from "../utils/getTechNews.js";
-import getNewsFromIthome from "../utils/getNewsFromIthome.js";
-import getNewsFromNewTalks from "../utils/getNewsFromNewTalks.js";
+import getPopularSongs from "../../utils/getPopularSongs.js";
+import getHotPostsFromPtt from "../../utils/getHotPostsFromPtt.js";
+import getTodayPostsFromDQ from "../../utils/getTodayPostsFromDQ.js";
+import getNewsFromBusinessNext from "../../utils/getNewsFromBusinessNext.js";
+import getTechNews from "../../utils/getTechNews.js";
+import getNewsFromIthome from "../../utils/getNewsFromIthome.js";
+import getNewsFromNewTalks from "../../utils/getNewsFromNewTalks.js";
 
 dotenv.config();
 
