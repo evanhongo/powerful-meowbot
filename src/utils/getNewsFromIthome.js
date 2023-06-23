@@ -1,9 +1,9 @@
-import getHtmlContent from "./getHtmlContent.js";
-import parseHtmlContentFromIthome from "./parser/parseHtmlContentFromIthome.js";
+const getHtmlContent = require("./getHtmlContent.js");
+const parseHtmlContentFromIthome = require("./parser/parseHtmlContentFromIthome.js");
 
 const getNewsFromIthome = async () => {
   try {
-    const htmlContent = await getHtmlContent("https://www.ithome.com.tw/news");
+    const htmlContent = await getHtmlContent("http://www.ithome.com.tw/news");
     const posts = parseHtmlContentFromIthome(htmlContent);
     return posts.join("\n");
   }
@@ -12,4 +12,4 @@ const getNewsFromIthome = async () => {
   }
 }
 
-export default getNewsFromIthome;
+module.exports = getNewsFromIthome;

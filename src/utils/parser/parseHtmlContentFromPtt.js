@@ -1,4 +1,4 @@
-import cheerio from "cheerio";
+const cheerio = require("cheerio");
 
 const parseHtmlContentFromPtt = (htmlContent) => {
   const $ = cheerio.load(htmlContent);
@@ -13,4 +13,4 @@ const parseHtmlContentFromPtt = (htmlContent) => {
   return posts;
 };
 
-export default parseHtmlContentFromPtt;
+module.exports = parseHtmlContentFromPtt;

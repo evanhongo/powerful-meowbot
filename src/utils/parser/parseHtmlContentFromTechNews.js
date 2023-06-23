@@ -1,4 +1,4 @@
-import cheerio from "cheerio";
+const cheerio = require("cheerio");
 
 const parseHtmlContentFromTechNews = (htmlContent) => {
     const $ = cheerio.load(htmlContent);
@@ -13,4 +13,4 @@ const parseHtmlContentFromTechNews = (htmlContent) => {
     return posts;
 }
 
-export default parseHtmlContentFromTechNews;
+module.exports = parseHtmlContentFromTechNews;

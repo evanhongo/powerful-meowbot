@@ -1,10 +1,10 @@
-import getHtmlContent from "./getHtmlContent.js";
-import parseHtmlContentFromPtt from "./parser/parseHtmlContentFromPtt.js";
+const getHtmlContent = require("./getHtmlContent.js");
+const parseHtmlContentFromPtt = require("./parser/parseHtmlContentFromPtt.js");
 
 const getHotPostsFromPtt = async () => {
   try {
     const htmlContent = await getHtmlContent(
-      "https://www.pttweb.cc/hot/all/today"
+      "http://www.pttweb.cc/hot/all/today"
     );
     const posts = parseHtmlContentFromPtt(htmlContent);
     return posts.slice(0, 30).join("\n");
@@ -13,4 +13,4 @@ const getHotPostsFromPtt = async () => {
   }
 };
 
-export default getHotPostsFromPtt;
+module.exports = getHotPostsFromPtt;

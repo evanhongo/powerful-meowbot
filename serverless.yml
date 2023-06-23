@@ -1,0 +1,17 @@
+service: aws-meow-bot
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+
+package:
+  exclude:
+    - img/**
+    - tests/**
+
+functions:
+  api:
+    handler: index.handler
+    events:
+      - httpApi: "*"
