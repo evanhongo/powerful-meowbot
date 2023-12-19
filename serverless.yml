@@ -6,9 +6,9 @@ provider:
   runtime: nodejs18.x
 
 package:
-  exclude:
-    - img/**
-    - tests/**
+  patterns:
+    - '!img/**'
+    - '!tests/**'
 
 functions:
   api:

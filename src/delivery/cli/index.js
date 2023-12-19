@@ -42,9 +42,7 @@ const start = async () => {
           res = await getHotPostsFromPtt();
           break;
         case "新聞":
-          fns = [
-            getNewsFromNewTalks
-          ];
+          fns = [getNewsFromNewTalks];
           res = await Promise.all(
             fns.map(async (fn) => {
               return await fn();
@@ -62,7 +60,7 @@ const start = async () => {
           res = res?.join("\n");
           break;
       }
-      // console.clear();
+      console.clear();
       console.log(res);
       console.log(
         chalk.bgBlue.black(
