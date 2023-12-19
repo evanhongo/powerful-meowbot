@@ -1,15 +1,13 @@
 #!/usr/bin/env node
-import chalk from "chalk";
-import figures from "figures";
-import figlet from "figlet";
-import cliSelect from "cli-select";
-import dotenv from "dotenv";
-import getHotPostsFromPtt from "../../utils/getHotPostsFromPtt.js";
-import getTechNews from "../../utils/getTechNews.js";
-import getNewsFromIthome from "../../utils/getNewsFromIthome.js";
-import getNewsFromNewTalks from "../../utils/getNewsFromNewTalks.js";
+const chalk = require("chalk");
+const figures = require("figures");
+const figlet = require("figlet");
+const cliSelect = require("cli-select");
 
-dotenv.config();
+const getHotPostsFromPtt = require("../../utils/getHotPostsFromPtt.js");
+const getTechNews = require("../../utils/getTechNews.js");
+const getNewsFromIthome = require("../../utils/getNewsFromIthome.js");
+const getNewsFromNewTalks = require("../../utils/getNewsFromNewTalks.js");
 
 const mainOptions = {
   values: ["八卦", "新聞", "科技"],
@@ -64,7 +62,7 @@ const start = async () => {
           res = res?.join("\n");
           break;
       }
-      console.clear();
+      // console.clear();
       console.log(res);
       console.log(
         chalk.bgBlue.black(
