@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+const { setTimeout } = require("node:timers/promises");
 const color = require("picocolors");
 const figlet = require("figlet");
 const p = require("@clack/prompts")
@@ -12,7 +13,7 @@ const main = async () => {
   const question = {
     message: "你想知道什麼?",
     initialValue: "1",
-    options: [{ value: "八卦", label: "八卦" }, { value: "新聞", label: "新聞" }, { value: "科技", label: "科技" }]
+    options: [{ value: "八卦", label: "八卦" }, { value: "新聞", label: "新聞" }, { value: "科技", label: "科技" }, { value: "沒了", label: "沒了" }]
   };
 
   try {
@@ -22,10 +23,13 @@ const main = async () => {
     );
     let res;
     let fns;
-
+    const spinner = p.spinner();
     p.intro(color.red("Let's Meow ~"));
     while (1) {
       res = await p.select(question);
+      spinner.start();
+      await setTimeout(500);
+      spinner.stop();
       switch (res) {
         case "八卦":
           res = await getHotPostsFromPtt();
@@ -48,6 +52,9 @@ const main = async () => {
           );
           res = res?.join("\n");
           break;
+        default:
+          p.outro(color.red("Bye ~"));
+          process.exit();
       }
       console.clear();
       console.log(res);
