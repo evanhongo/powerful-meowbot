@@ -1,43 +1,32 @@
 #!/usr/bin/env node
-const chalk = require("chalk");
-const figures = require("figures");
+const color = require("picocolors");
 const figlet = require("figlet");
-const cliSelect = require("cli-select");
+const p = require("@clack/prompts")
 
 const getHotPostsFromPtt = require("../../utils/getHotPostsFromPtt.js");
 const getTechNews = require("../../utils/getTechNews.js");
 const getNewsFromIthome = require("../../utils/getNewsFromIthome.js");
 const getNewsFromNewTalks = require("../../utils/getNewsFromNewTalks.js");
 
-const mainOptions = {
-  values: ["八卦", "新聞", "科技"],
-  selected: chalk.red(figures.heart),
-  unselected: "",
-  valueRenderer: (value, selected) => {
-    return selected ? chalk.red.underline(value) : value;
-  },
-};
+const main = async () => {
+  const question = {
+    message: "你想知道什麼?",
+    initialValue: "1",
+    options: [{ value: "八卦", label: "八卦" }, { value: "新聞", label: "新聞" }, { value: "科技", label: "科技" }]
+  };
 
-const sleep = (t) =>
-  new Promise((resolve) => {
-    setTimeout(() => {
-      resolve();
-    }, t);
-  });
-
-const start = async () => {
   try {
-    await sleep(1);
     console.clear();
     console.log(
-      chalk.yellow(figlet.textSync("Let's Meow", { horizontalLayout: "full" }))
+      color.red(figlet.textSync("Let's Meow", { horizontalLayout: "full" }))
     );
-    let res = 1;
+    let res;
     let fns;
-    while (res) {
-      console.log(chalk.red("你想知道什麼"));
-      res = await cliSelect(mainOptions);
-      switch (res?.value) {
+
+    p.intro(color.red("Let's Meow ~"));
+    while (1) {
+      res = await p.select(question);
+      switch (res) {
         case "八卦":
           res = await getHotPostsFromPtt();
           break;
@@ -62,15 +51,10 @@ const start = async () => {
       }
       console.clear();
       console.log(res);
-      console.log(
-        chalk.bgBlue.black(
-          "------------------------------------------------------"
-        )
-      );
     }
   } catch (err) {
     console.clear();
   }
 };
 
-start();
+main();

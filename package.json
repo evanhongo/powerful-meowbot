@@ -16,10 +16,13 @@
   },
   "license": "ISC",
   "dependencies": {
+    "@clack/prompts": "^0.7.0",
     "@line/bot-sdk": "^7.5.2",
     "cheerio": "^1.0.0-rc.12",
     "express": "^4.18.2",
+    "figlet": "^1.7.0",
     "node-fetch": "2",
+    "picocolors": "^1.0.0",
     "serverless-http": "^3.2.0"
   },
   "devDependencies": {
@@ -28,10 +31,6 @@
     "@babel/preset-env": "^7.21.5",
     "@babel/runtime-corejs3": "^7.21.5",
     "babel-jest": "^29.5.0",
-    "chalk": "^4.x",
-    "cli-select": "^1.1.2",
-    "figlet": "^1.6.0",
-    "figures": "^3.x",
     "jest": "^29.5.0"
   }
 }
