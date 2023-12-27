@@ -5,21 +5,24 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
-  '@clack/prompts':
-    specifier: ^0.7.0
-    version: 0.7.0
   '@line/bot-sdk':
     specifier: ^7.5.2
     version: 7.7.0
   cheerio:
     specifier: ^1.0.0-rc.12
     version: 1.0.0-rc.12
+  cli-select:
+    specifier: ^1.1.2
+    version: 1.1.2
   express:
     specifier: ^4.18.2
     version: 4.18.2
   figlet:
     specifier: ^1.7.0
     version: 1.7.0
+  figures:
+    specifier: ^3.2.0
+    version: 3.2.0
   node-fetch:
     specifier: '2'
     version: 2.7.0
@@ -1304,23 +1307,6 @@ packages:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
     dev: true
 
-  /@clack/core@0.3.3:
-    resolution: {integrity: sha512-5ZGyb75BUBjlll6eOa1m/IZBxwk91dooBWhPSL67sWcLS0zt9SnswRL0l26TVdBhb0wnWORRxUn//uH6n4z7+A==}
-    dependencies:
-      picocolors: 1.0.0
-      sisteransi: 1.0.5
-    dev: false
-
-  /@clack/prompts@0.7.0:
-    resolution: {integrity: sha512-0MhX9/B4iL6Re04jPrttDm+BsP8y6mS7byuv0BvXgdXhbV5PdlsHt55dvNsuBCPZ7xq1oTAOOuotR9NFbQyMSA==}
-    dependencies:
-      '@clack/core': 0.3.3
-      picocolors: 1.0.0
-      sisteransi: 1.0.5
-    dev: false
-    bundledDependencies:
-      - is-unicode-supported
-
   /@istanbuljs/load-nyc-config@1.1.0:
     resolution: {integrity: sha512-VjeHSlIzpv/NyD3N0YuHfXOPDIixcA1q2ZV98wsMqcYlPmv2n3Yb2lYP9XMElnaFVXg5A7YLTeLu6V84uQDjmQ==}
     engines: {node: '>=8'}
@@ -1720,6 +1706,11 @@ packages:
       negotiator: 0.6.3
     dev: false
 
+  /ansi-escapes@3.2.0:
+    resolution: {integrity: sha512-cBhpre4ma+U0T1oM5fXg7Dy1Jw7zzwv7lt/GoCpr+hDQJoYnKVPLL4dCvSEFMmQurOQvSrwT7SL/DAlhBI97RQ==}
+    engines: {node: '>=4'}
+    dev: false
+
   /ansi-escapes@4.3.2:
     resolution: {integrity: sha512-gKXj5ALrKWQLsYG9jlTRmR/xKluxHV+Z9QEwNIgCfM1/uwPMCuzVVnh5mwTd+OuBZcwSIMbqssNWRm1lE51QaQ==}
     engines: {node: '>=8'}
@@ -2085,6 +2076,12 @@ packages:
     resolution: {integrity: sha512-0TNiGstbQmCFwt4akjjBg5pLRTSyj/PkWQ1ZoO2zntmg9yLqSRxwEa4iCfQLGjqhiqBfOJa7W/E8wfGrTDmlZQ==}
     dev: true
 
+  /cli-select@1.1.2:
+    resolution: {integrity: sha512-PSvWb8G0PPmBNDcz/uM2LkZN3Nn5JmhUl465tTfynQAXjKzFpmHbxStM6X/+awKp5DJuAaHMzzMPefT0suGm1w==}
+    dependencies:
+      ansi-escapes: 3.2.0
+    dev: false
+
   /cliui@8.0.1:
     resolution: {integrity: sha512-BSeNnyus75C4//NQ9gQt1/csTXyo/8Sb+afLAkzAptFuMsod9HFokGNudZpi/oQV73hnVK+sR+5PVRMd+Dr7YQ==}
     engines: {node: '>=12'}
@@ -2362,7 +2359,6 @@ packages:
   /escape-string-regexp@1.0.5:
     resolution: {integrity: sha512-vbRorB5FUQWvla16U8R/qgaFIya2qGzwDrNmCZuYKrbdSUMG6I1ZCGQRefkRVhuOkIGVne7BQ35DSfo1qvJqFg==}
     engines: {node: '>=0.8.0'}
-    dev: true
 
   /escape-string-regexp@2.0.0:
     resolution: {integrity: sha512-UpzcLCXolUWcNu5HtVMHYdXJjArjsF9C0aNnquZYY4uW/Vu0miy5YoWvbV345HauVvcAUnpRuhMMcqTcGOY2+w==}
@@ -2469,6 +2465,13 @@ packages:
     resolution: {integrity: sha512-gO8l3wvqo0V7wEFLXPbkX83b7MVjRrk1oRLfYlZXol8nEpb/ON9pcKLI4qpBv5YtOTfrINtqb7b40iYY2FTWFg==}
     engines: {node: '>= 0.4.0'}
     hasBin: true
+    dev: false
+
+  /figures@3.2.0:
+    resolution: {integrity: sha512-yaduQFRKLXYOGgEn6AZau90j3ggSOyiqXU0F9JZfeXYhNa+Jk4X+s45A2zg5jns87GAFa34BBm2kXw4XpNcbdg==}
+    engines: {node: '>=8'}
+    dependencies:
+      escape-string-regexp: 1.0.5
     dev: false
 
   /file-type@16.5.4:
@@ -3857,6 +3860,7 @@ packages:
 
   /sisteransi@1.0.5:
     resolution: {integrity: sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==}
+    dev: true
 
   /slash@2.0.0:
     resolution: {integrity: sha512-ZYKh3Wh2z1PpEXWr0MpSBZ0V6mZHAQfYevttO11c51CaWjGTaadiKZ+wVt1PbMlDV5qhMFslpZCemhwOK7C89A==}

@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-const { setTimeout } = require("node:timers/promises");
 const color = require("picocolors");
+const figures = require("figures");
 const figlet = require("figlet");
-const p = require("@clack/prompts")
+const cliSelect = require("cli-select");
 
 const getHotPostsFromPtt = require("../../utils/getHotPostsFromPtt.js");
 const getTechNews = require("../../utils/getTechNews.js");
@@ -10,10 +10,13 @@ const getNewsFromIthome = require("../../utils/getNewsFromIthome.js");
 const getNewsFromNewTalks = require("../../utils/getNewsFromNewTalks.js");
 
 const main = async () => {
-  const question = {
-    message: "你想知道什麼?",
-    initialValue: "1",
-    options: [{ value: "八卦", label: "八卦" }, { value: "新聞", label: "新聞" }, { value: "科技", label: "科技" }, { value: "沒了", label: "沒了" }]
+  const mainOptions = {
+    values: ["八卦", "新聞", "科技", "沒了"],
+    selected: color.red(figures.heart),
+    unselected: "",
+    valueRenderer: (value, selected) => {
+      return selected ? color.underline(color.red(value)) : value;
+    },
   };
 
   try {
@@ -23,14 +26,10 @@ const main = async () => {
     );
     let res;
     let fns;
-    const spinner = p.spinner();
-    p.intro(color.red("Let's Meow ~"));
     while (1) {
-      res = await p.select(question);
-      spinner.start();
-      await setTimeout(500);
-      spinner.stop();
-      switch (res) {
+      console.log(color.red("你想知道什麼"));
+      res = await cliSelect(mainOptions);
+      switch (res.value) {
         case "八卦":
           res = await getHotPostsFromPtt();
           break;
@@ -53,11 +52,15 @@ const main = async () => {
           res = res?.join("\n");
           break;
         default:
-          p.outro(color.red("Bye ~"));
-          process.exit();
+          process.exit(0);
       }
       console.clear();
       console.log(res);
+      console.log(
+        color.bgBlue(color.black(
+          "------------------------------------------------------"
+        ))
+      );
     }
   } catch (err) {
     console.clear();
